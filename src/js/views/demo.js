@@ -10,6 +10,9 @@ export const Demo = () => {
 
 	return (
 		<div className="container">
+			<button onClick={() => console.log(store.contacts)}>
+				Console log the contact list
+			</button>
 			<ul className="list-group">
 				{store.demo.map((item, index) => {
 					return (

@@ -1,28 +1,45 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			contacts: [{
+				name: "Not ok",
+				phone: "Wrong",
+				email: "Ishouldnotappear",
+				address: "Not this one",
+				id: "none"
+			}]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+			loadContacts: () => {
+			fetch('https://playground.4geeks.com/contact/agendas/patry/contacts')
+			.then(resp => {
+			if(!resp.ok){
+				//Create agenda if it doesn't exist:
+				return fetch('https://playground.4geeks.com/contact/agendas/patry',{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+				.then(response => {if(!response.ok){throw new Error("Failed to create user")}
+				return response.json()})
+				.then(() => {
+					//After creating the agenda, fetch the contacts (should be empty)
+					return fetch('https://playground.4geeks.com/contact/agendas/patry/contacts')
+					.then(r => {if(!r.ok){throw new Error("Failed to load contacts of new agenda")}
+					return r.json()})
+					.then(d => {setStore({ contacts: d.contacts })
+					//Keep the function from going on
+					Promise.resolve()})
+				})
+			}
+			return resp.json()})
+			.then(data => setStore({ contacts: data.contacts }))
+			.catch(error => {console.log("Error: ", error)})
 			},
 			changeColor: (index, color) => {
 				//get the store
