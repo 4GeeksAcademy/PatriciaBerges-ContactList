@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ContactCard } from "../component/contactCard";
 
 import { Context } from "../store/appContext";
 
-import "../../styles/demo.css";
+import "../../styles/view.css";
 
 export const ContactView = () => {
     const { store, actions } = useContext(Context);
@@ -12,18 +13,18 @@ export const ContactView = () => {
 
     const displayContacts = (list) => {
         return list.map((contact, index) => {
-            return (<div key={index}>
-                <p>Name: {contact.name}</p>
-                <p>Phone number: {contact.phone}</p>
-                <p>email: {contact.email}</p>
-                <p>Address: {contact.address}</p>
+            return (<div key={index} >
+                <ContactCard name={contact.name} phone={contact.phone} address={contact.address} email={contact.email} />
             </div>)
         })
     }
 
     return(
         <div>
-            {displayContacts(store.contacts)}
+            <Link to="/add-contact">
+                <button className="btn btn-success addButton mt-3">Add new contact</button>
+            </Link>
+            <div className="mt-4">{displayContacts(store.contacts)}</div>
         </div>
     )
 }

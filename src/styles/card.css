@@ -1,0 +1,32 @@
+.contButton{
+    height: 10px;
+    border: none;
+    background-color: white;
+    margin: 10px;
+}
+
+.contactPic{
+    border-radius: 50%;
+    height: 125px;
+    width: 125px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%)
+}
+
+.contCard{
+    border: 1px solid lightgray;
+}
+
+.leftSide{
+    position: relative;
+}
+
+.props{
+    margin-left: 200px;
+}
+
+p, h5{
+    color: grey;
+}

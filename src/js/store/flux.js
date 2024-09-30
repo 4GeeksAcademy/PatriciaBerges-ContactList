@@ -2,11 +2,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			contacts: [{
-				name: "Not ok",
-				phone: "Wrong",
-				email: "Ishouldnotappear",
-				address: "Not this one",
-				id: "none"
+				name: "",
+				phone: "",
+				email: "",
+				address: "",
+				id: ""
 			}]
 		},
 		actions: {

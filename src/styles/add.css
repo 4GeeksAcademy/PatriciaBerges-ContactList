@@ -1,0 +1,14 @@
+input{
+    border-radius: 5px !important;
+}
+
+h1{
+    left: 50%;
+    width: 400px;
+    margin: auto;
+}
+
+button{
+    border-radius: 5px !important;
+    
+}
