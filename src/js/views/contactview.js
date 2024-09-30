@@ -12,9 +12,9 @@ export const ContactView = () => {
     useEffect(() => {actions.loadContacts()}, [])
 
     const displayContacts = (list) => {
-        return list.map((contact, index) => {
-            return (<div key={index} >
-                <ContactCard name={contact.name} phone={contact.phone} address={contact.address} email={contact.email} />
+        return list.map((contact) => {
+            return (<div key={contact.id} >
+                <ContactCard fullname={contact.name} phone={contact.phone} address={contact.address} email={contact.email} contactid={contact.id}/>
             </div>)
         })
     }

@@ -11,9 +11,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
 			loadContacts: () => {
 			fetch('https://playground.4geeks.com/contact/agendas/patry/contacts')
 			.then(resp => {
@@ -41,19 +38,51 @@ const getState = ({ getStore, getActions, setStore }) => {
 			.then(data => setStore({ contacts: data.contacts }))
 			.catch(error => {console.log("Error: ", error)})
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			addContact: (contact) => {
+				const store = getStore()
+				fetch('https://playground.4geeks.com/contact/agendas/patry/contacts', {
+					method: "POST",
+					body: JSON.stringify(contact),
+					headers: {"Content-Type": "application/json"}
+				})
+				.then(response => response.json())
+				.then((data) => {
+					setStore({contacts: [...store.contacts, data]})
+				})
+				.catch(err => console.log("Error: ", err))
+			},
+			delContact: (id) =>  {
+				const store = getStore()
+				const actions = getActions()
+				
+				fetch(`https://playground.4geeks.com/contact/agendas/patry/contacts/${id}`, {
+					method: "DELETE",
+					headers: {"Content-Type": "application/json"}
+				})
+				.then(r => {if(!r.ok){throw new Error("Failed to delete contact")}})
+				.then(() => {
+					let newList = store.contacts.filter(contact => contact.id !== id)
+					setStore({contacts: newList})
+					actions.loadContacts()})
+			},
+			updContact: (contact, id) => {
+				const store = getStore()
+				fetch(`https://playground.4geeks.com/contact/agendas/patry/contacts/${id}`, {
+					method: "PUT",
+					body: JSON.stringify(contact),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+				.then(res => {if(!res.ok){throw new Error("Failed to update the contact")}
+				res.json()})
+				.then(data => {
+					const newList = store.contacts.map((contact) => {
+						if(contact.id == id){return data}
+						else return contact
+					})
+					setStore({contacts: newList})
+				})
 			}
 		}
 	};
