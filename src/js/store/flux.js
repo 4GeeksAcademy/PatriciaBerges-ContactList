@@ -75,7 +75,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				})
 				.then(res => {if(!res.ok){throw new Error("Failed to update the contact")}
-				res.json()})
+				return res.json()})
 				.then(data => {
 					const newList = store.contacts.map((contact) => {
 						if(contact.id == id){return data}

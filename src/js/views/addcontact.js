@@ -37,6 +37,10 @@ export const AddContact = () => {
             "address": inputAddress
           }
         actions.addContact(newContact) 
+        setInputName("")
+        setInputAddress("")
+        setInputEmail("")
+        setInputPhone("")
     }
 
     return (
